@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saturna Link Grid</title>
+
+<link href="https://fonts.googleapis.com/css?family=Silkscreen" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    background: black;
+    font-family: 'Silkscreen', sans-serif;
+    overflow-y: auto;
+    color: #fff;
+}
+
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+#center-container {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin: 50px auto 40px;
+}
+
+#center-text {
+    font-size: 80px;
+    background: linear-gradient(90deg, #ff00ff, #6a0ddb, #ff00ff);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation:
+        gradientShiftText 6s ease infinite,
+        neonFlicker 2.8s infinite,
+        glitchShift 4s infinite;
+    margin-bottom: 30px;
+    cursor: default;
+    display: inline-block;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+#center-text:hover {
+    transform: scale(1.08);
+    filter:
+        brightness(1.35)
+        saturate(1.6)
+        drop-shadow(0 0 10px #ff00ff)
+        drop-shadow(0 0 24px #6a0ddb)
+        drop-shadow(0 0 48px #ff00ff)
+        drop-shadow(0 0 90px #6a0ddb);
+}
+
+@keyframes gradientShiftText { 0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;} }
+@keyframes neonFlicker {0%,18%,22%,25%,53%,57%,100%{opacity:1;}20%,24%,55%{opacity:0.85;}}
+@keyframes glitchShift {0%{transform:translate(0) scale(1);}93%{transform:translate(-2px,1px) scale(1);}94%{transform:translate(2px,-1px) scale(1);}95%{transform:translate(-1px,-2px) scale(1);}96%{transform:translate(1px,2px) scale(1);}97%{transform:translate(0) scale(1);} }
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    z-index: 2;
+    position: relative;
+}
+
+.tile {
+    position: relative;
+    height: 170px;
+    border-radius: 16px;
+    overflow: hidden;
+    text-decoration: none;
+    color: #fff;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.tile:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255,0,255,0.35),0 0 35px rgba(106,13,219,0.35);
+}
+
+.tile img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+}
+.tile:hover img { transform: scale(1.15); }
+
+.tile::after {
+    content:"";
+    position:absolute;
+    inset:0;
+    background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.25));
+    z-index: 1;
+}
+
+.tile span {
+    position:absolute;
+    bottom:12px;
+    left:12px;
+    right:12px;
+    z-index:2;
+    font-size:0.8rem;
+    text-align:left;
+}
+
+/* ===== PILL-ONLY NEON SCROLLBAR ===== */
+
+/* Chrome / Edge / Safari */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; /* no bar */
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+        180deg,
+        #ff00ff,
+        #6a0ddb,
+        #ff00ff
+    );
+    border-radius: 999px;
+    min-height: 40px;
+    box-shadow:
+        0 0 12px rgba(255, 0, 255, 0.75),
+        0 0 24px rgba(106, 13, 219, 0.6);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    box-shadow:
+        0 0 18px rgba(255, 0, 255, 0.95),
+        0 0 36px rgba(106, 13, 219, 0.85);
+}
+
+/* Firefox fallback (pill, no track) */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #b14cff transparent;
+}
+
+
+</style>
+</head>
+
+<body>
+<canvas id="canvas"></canvas>
+
+<div id="center-container">
+    <div id="center-text">GAMING CENTRE</div>
+</div>
+
+<div class="grid">
+    <!-- 40 Editable Buttons -->
+    <a class="tile" href="https://sites.google.com/view/saturna-huh/gmes/normal-gmes/10-minutes-till-dawn?authuser=0" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyQK9rap1c3MKt8leanZhcedn2yq5ykNvzMQ&s" alt=""><span>10 Minutes Till Dawn</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-huh/gmes/normal-gmes/1v1-lol?authuser=0" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLQjxqX6h862pATGp-2vFlzW1wIbXcgXn4vQ&s" alt=""><span>1V1.Lol</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-huh/gmes/normal-gmes/2d-shooting?authuser=0" target="_blank"><img src="https://img.itch.zone/aW1nLzIwNDQ5NDg5LnBuZw==/315x250%23c/ri7fP4.png" alt=""><span>2D shooting</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-huh/gmes/normal-gmes/3dash?authuser=0" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQh2swIlMAAbS2HdRv6tMtkcQQLxyEAqPpwwA&s" alt=""><span>3dash</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-huh/gmes/normal-gmes/4th-and-goal?authuser=0" target="_blank"><img src="https://play-lh.googleusercontent.com/s1qIQMBzrICABE8ro2_mel4b2lS1Ma1WD4U9lM44bXNjUMCEN31ozKO1Z_dslU8YZoAO" alt=""><span>4th and goal</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-huh/gmes/normal-gmes/99-nights-in-the-forest?authuser=0" target="_blank"><img src="https://i.scdn.co/image/ab67616d00001e026dd3cd04c7bbdba63f354db6" alt=""><span>99 nights in the forest</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-huh/gmes/normal-gmes/a-dance-of-fire-and-ice?authuser=0" target="_blank"><img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/e2/e7/ab/e2e7ab02-5768-ba37-40f3-a068574da964/AppIcon-0-0-1x_U007epad-0-9-0-85-220.png/320x320bb.jpg" alt=""><span>A Dance of Fire and ice</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-huh/gmes/normal-gmes/a-dark-room?authuser=0" target="_blank"><img src="https://play-lh.googleusercontent.com/b-CitCFqGzCKgrR-FFm5diz9f1DL65SiIAw0d-_UwrL8agFmFRhQdG32kCuFduDs-w" alt=""><span>A dark room</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-huh/gmes/normal-gmes/a-day-in-the-office?authuser=0" target="_blank"><img src="https://img.itch.zone/aW1nLzY0ODA1OTAuanBn/original/8XPsrw.jpg" alt=""><span>A day in the office</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-huh/gmes/normal-gmes/adventure-capitalist?authuser=0" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/en/1/13/AdVenture_Capitalist_%282014_video_game%29.png" alt=""><span>Adventure capitalist</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-huh/gmes/normal-gmes/ages-of-conflict?authuser=0" target="_blank"><img src="https://e.snmc.io/lk/f/x/a23d25e3fd99be98fe595b0a6014db8b/12904075" alt=""><span>Ages of conflict</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-huh/gmes/normal-gmes/among-us?authuser=0" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJwI44RIxtDJZJKG3YSrDga-TGrSDJReO8eQ&s" alt=""><span>among us</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-huh/gmes/normal-gmes/angry-birds?authuser=0" target="_blank"><img src="https://e.snmc.io/lk/lv/x/a11eeb87a685723bd02dfa5797305413/10169379" alt=""><span>Angry birds</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-huh/gmes/normal-gmes/a-small-world-cup?authuser=0" target="_blank"><img src="https://play-lh.googleusercontent.com/R47kNu-wEYMVnoo7rFOXiAHoBvW26KHps65Oi0S6zMF722x0LYqHJUiXRvB_xhsj0CM" alt=""><span>Link 14</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-ddnknfkdnfkdnkfndkfn/gmes/normal-gmes/backrooms?authuser=0" target="_blank"><img src="https://backroomsgame.io/data/image/backrooms.png" alt=""><span>Backrooms</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-ddnknfkdnfkdnkfndkfn/gmes/normal-gmes/bad-monday-simulator?authuser=0" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5Oj5cvZpHfvdsTMDxUYMbxKt_LoXMPQyXWA&s" alt=""><span>bad monday simulator</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-ddnknfkdnfkdnkfndkfn/gmes/normal-gmes/bad-time-simulator?authuser=0" target="_blank"><img src="https://play-lh.googleusercontent.com/T08jAj6GRGQGPOw41mQrvM_bz0ZFbqtZVL8YMbLoAy-Qu6zmLwfV7BNrPCPpUX-ZWQ" alt=""><span>bad time simulator</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-ddnknfkdnfkdnkfndkfn/gmes/normal-gmes/bad-parenting?authuser=0" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaRQgOGyg39WSpDxP2idKjLkMXCgYkovSLZw&s" alt=""><span>bad parenting</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-ddnknfkdnfkdnkfndkfn/gmes/normal-gmes/baldis-basics?authuser=0" target="_blank"><img src="https://play-lh.googleusercontent.com/EPV1TB4So1lB0DGrdCVExDpNU8ML67nd8OqBeoOIM-s6sDicxmDdPvCXD6n7LKevFl0" alt=""><span>baldi's basics</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-ddnknfkdnfkdnkfndkfn/gmes/normal-gmes/basket-random?authuser=0" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0qj4H4c1nnfsygBxoQEbJkkUZ7yY_LkTnkA&s" alt=""><span>basket random</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-ddnknfkdnfkdnkfndkfn/gmes/normal-gmes/capybara-clicker?authuser=0" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShWudS7sAXcnY1f0k6UYCC8XrVfnK9zIkxWQ&s" alt=""><span>capybara clicker</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-ddnknfkdnfkdnkfndkfn/gmes/normal-gmes/celeste?authuser=0" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-AfiT5LLZ975Kmk84iKnhxjswFQMwSsG2zQ&s" alt=""><span>celeste</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-ddnknfkdnfkdnkfndkfn/gmes/normal-gmes/cheese-chompers-3d?authuser=0" target="_blank"><img src="https://merge-fellas.io/thumb/cheese-chompers-3d.png" alt=""><span>Cheese chompers 3d</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-ddnknfkdnfkdnkfndkfn/gmes/normal-gmes/choppy-orc?authuser=0" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRS8ACxr9KQwF1Cy3IfqFL5hEuVFn-TIXb7w&s" alt=""><span>choppy orc</span></a>
+    <a class="tile" href="https://sites.google.com/view/saturna-ddnknfkdnfkdnkfndkfn/gmes/normal-gmes/class-of-09?authuser=0" target="_blank"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQt4wdeNVX-QW5wPnHBmkE1A_v5jH1GJDC7TQ&s" alt=""><span>class of '09</span></a>
+    <a class="tile" href="https://example.com/26" target="_blank"><img src="https://picsum.photos/id/1063/400/300" alt=""><span>Link 26</span></a>
+    <a class="tile" href="https://example.com/27" target="_blank"><img src="https://picsum.photos/id/1065/400/300" alt=""><span>Link 27</span></a>
+    <a class="tile" href="https://example.com/28" target="_blank"><img src="https://picsum.photos/id/1067/400/300" alt=""><span>Link 28</span></a>
+    <a class="tile" href="https://example.com/29" target="_blank"><img src="https://picsum.photos/id/1069/400/300" alt=""><span>Link 29</span></a>
+    <a class="tile" href="https://example.com/30" target="_blank"><img src="https://picsum.photos/id/1071/400/300" alt=""><span>Link 30</span></a>
+    <a class="tile" href="https://example.com/31" target="_blank"><img src="https://picsum.photos/id/1073/400/300" alt=""><span>Link 31</span></a>
+    <a class="tile" href="https://example.com/32" target="_blank"><img src="https://picsum.photos/id/1075/400/300" alt=""><span>Link 32</span></a>
+    <a class="tile" href="https://example.com/33" target="_blank"><img src="https://picsum.photos/id/1077/400/300" alt=""><span>Link 33</span></a>
+    <a class="tile" href="https://example.com/34" target="_blank"><img src="https://picsum.photos/id/1079/400/300" alt=""><span>Link 34</span></a>
+    <a class="tile" href="https://example.com/35" target="_blank"><img src="https://picsum.photos/id/1081/400/300" alt=""><span>Link 35</span></a>
+    <a class="tile" href="https://example.com/36" target="_blank"><img src="https://picsum.photos/id/1083/400/300" alt=""><span>Link 36</span></a>
+    <a class="tile" href="https://example.com/37" target="_blank"><img src="https://picsum.photos/id/1085/400/300" alt=""><span>Link 37</span></a>
+    <a class="tile" href="https://example.com/38" target="_blank"><img src="https://picsum.photos/id/1087/400/300" alt=""><span>Link 38</span></a>
+    <a class="tile" href="https://example.com/39" target="_blank"><img src="https://picsum.photos/id/1089/400/300" alt=""><span>Link 39</span></a>
+    <a class="tile" href="https://example.com/40" target="_blank"><img src="https://picsum.photos/id/1091/400/300" alt=""><span>Link 40</span></a>
+</div>
+
+<script>
+// Particle background (Saturna style)
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+let particles = [];
+const maxParticles = 220;
+
+function resize(){ canvas.width=innerWidth; canvas.height=innerHeight; }
+window.addEventListener("resize",resize);
+resize();
+
+function createParticle(){ 
+  return { x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.8, vy: (Math.random()-0.5)*0.8, size: Math.random()*6+4, alpha:0, fadeInRate:0.005+Math.random()*0.003, fadeOutRate:0.002+Math.random()*0.003, angle: Math.random()*Math.PI*2, angularVelocity:(Math.random()-0.5)*0.02 };
+}
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  if(particles.length<maxParticles) particles.push(createParticle());
+  particles.forEach((p,i)=>{
+    if(p.alpha<1)p.alpha+=p.fadeInRate; else p.alpha-=p.fadeOutRate;
+    if(p.alpha<=0){particles.splice(i,1); return;}
+    ctx.save();
+    ctx.translate(p.x,p.y);
+    ctx.rotate(p.angle);
+    ctx.globalAlpha=p.alpha;
+    ctx.fillStyle="#800080";
+    ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size);
+    ctx.restore();
+    p.x+=p.vx; p.y+=p.vy; p.angle+=p.angularVelocity;
+    if(p.x<0||p.x>canvas.width)p.vx*=-1;
+    if(p.y<0||p.y>canvas.height)p.vy*=-1;
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+
+</body>
+</html>

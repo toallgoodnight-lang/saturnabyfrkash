@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Saturna with Neon Battery</title>
+<link href="https://fonts.googleapis.com/css?family=Silkscreen" rel="stylesheet">
+<style>
+body {
+  margin: 0;
+  background: black;
+  overflow: hidden;
+  font-family: 'Silkscreen', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  position: relative;
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* ───────── BATTERY ───────── */
+.battery-container {
+  position: fixed;
+  top: 30px;
+  left: 30px;
+  width: 100px;
+  height: 50px;
+  border: 2px solid #ff00ff;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  background-color: transparent;
+  transition: transform 0.8s ease-in-out, box-shadow 0.8s ease-in-out;
+  z-index: 2;
+}
+.battery-container:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff;
+}
+.battery-text {
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: #ff00ff;
+}
+.battery-wrapper {
+  position: relative;
+  width: 100%;
+  height: 10px;
+  border: 2px solid #ff00ff;
+  border-radius: 7px;
+  overflow: hidden;
+  background-color: #111;
+}
+.battery-level {
+  height: 100%;
+  background: linear-gradient(90deg, #ff00ff, #888888);
+  transition: width 0.8s ease-in-out;
+}
+.battery-tip {
+  width: 6px;
+  height: 10px;
+  background-color: #ff00ff;
+  position: absolute;
+  right: -7px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 3px;
+}
+
+/* ───────── CENTER ───────── */
+#center-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+/* ───── GLITCH NEON TEXT ───── */
+#center-text {
+  font-size: 100px;
+  z-index: 1;
+  background: linear-gradient(90deg,#ff00ff,#6a0ddb,#ff00ff);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: 'Silkscreen', sans-serif;
+  text-align: center;
+  margin-bottom: 30px;
+  cursor: pointer;
+  transform: scale(1);
+  transition: transform 0.35s ease, filter 0.35s ease;
+  filter:
+    brightness(1.2)
+    saturate(1.4)
+    drop-shadow(0 0 6px #ff00ff)
+    drop-shadow(0 0 14px #6a0ddb)
+    drop-shadow(0 0 30px #ff00ff)
+    drop-shadow(0 0 60px #6a0ddb);
+  animation:
+    gradientShiftText 6s ease infinite,
+    neonFlicker 2.8s infinite,
+    glitchShift 4s infinite;
+}
+#center-text:hover {
+  transform: scale(1.08);
+  filter:
+    brightness(1.35)
+    saturate(1.6)
+    drop-shadow(0 0 10px #ff00ff)
+    drop-shadow(0 0 24px #6a0ddb)
+    drop-shadow(0 0 48px #ff00ff)
+    drop-shadow(0 0 90px #6a0ddb);
+}
+
+/* ───────── ICON MENU BAR ───────── */
+#icon-bar {
+  display: flex;
+  gap: 30px;
+  background: rgba(0,0,0,0.6);
+  padding: 10px 30px;
+  border-radius: 99px;
+  border: 4px solid #6a0ddb;
+  box-shadow: 0 0 20px #6a0ddb;
+  margin-top: 0px;
+  z-index: 2;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+#icon-bar:hover {
+  border-color: #ff00ff;
+  box-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff;
+}
+
+/* ───────── ICON BUTTONS ───────── */
+.icon-button {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #6a0ddb;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background: rgba(0,0,0,0.2);
+}
+.icon-button:hover {
+  transform: scale(1.2);
+  border-color: #ff00ff;
+  box-shadow: 0 0 10px #ff00ff, 0 0 20px #6a0ddb;
+}
+.icon-button img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 4px #ff00ff) drop-shadow(0 0 10px #6a0ddb);
+  transition: filter 0.3s ease;
+}
+.icon-button:hover img {
+  filter: drop-shadow(0 0 10px #ff00ff) drop-shadow(0 0 20px #6a0ddb);
+}
+
+/* Tooltip */
+.icon-button span {
+  position: absolute;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: #ff00ff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.icon-button:hover span {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
+}
+
+/* ───────── ANNOUNCEMENT ───────── */
+#announcement {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(0,0,0,0.75);
+  border: 6px solid #6a0ddb;
+  border-radius: 20px;
+  padding: 20px 25px;
+  color: #ff00ff;
+  text-align: center;
+  z-index: 9999;
+  box-shadow: 0 0 20px rgba(106, 13, 219, 0.8);
+  animation: slideIn 0.6s ease forwards;
+  transition: box-shadow 0.4s ease, border-color 0.4s ease, transform 0.3s ease;
+}
+#announcement:hover {
+  border-color: #ff00ff;
+  box-shadow: 0 0 15px #ff00ff, 0 0 40px #ff00ff, 0 0 70px #ff00ff;
+  transform: scale(1.05);
+}
+#announcement button {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #ff00ff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* ───────── ANIMATIONS ───────── */
+@keyframes gradientShiftText {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes neonFlicker {
+  0%,18%,22%,25%,53%,57%,100% { opacity: 1; }
+  20%,24%,55% { opacity: .85; }
+}
+@keyframes glitchShift {
+  0% { transform: translate(0) scale(1); }
+  93% { transform: translate(-2px,1px) scale(1); }
+  94% { transform: translate(2px,-1px) scale(1); }
+  95% { transform: translate(-1px,-2px) scale(1); }
+  96% { transform: translate(1px,2px) scale(1); }
+  97% { transform: translate(0) scale(1); }
+}
+@keyframes slideIn {
+  0% { transform: translateX(50px) scale(0.9); opacity: 0; }
+  100% { transform: translateX(0) scale(1); opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="canvas"></canvas>
+
+<!-- Announcement -->
+<div id="announcement">
+  <button onclick="this.parentElement.remove()">✕</button>
+  <div>🚨 ANNOUNCEMENT 🚨<br>Welcome to SATURNA.</div>
+</div>
+
+<div id="center-container">
+  <div id="center-text">SATURNA</div>
+
+  <!-- ICON BAR WITH IMAGES -->
+  <div id="icon-bar">
+    <a href="/games" class="icon-button">
+      <img src="https://waguri.berryfamily.id.au/png/gamepad-solid.svg" alt="Games">
+      <span>Games</span>
+    </a>
+    <a href="/world" class="icon-button">
+      <img src="https://getdrawings.com/free-icon-bw/world-icon-png-25.png" alt="Proxies">
+      <span>Proxies</span>
+    </a>
+    <a href="example.com" class="icon-button">
+      <img src="https://icon-library.com/images/movie-png-icon/movie-png-icon-0.jpg" alt="Movies">
+      <span>Movies</span>
+    </a>
+    <a href="/contact" class="icon-button">
+      <img src="https://cdn-icons-png.flaticon.com/512/903/903534.png" alt="Partners">
+      <span>Partners</span>
+    </a>
+  </div>
+</div>
+
+<script>
+// ───────── PARTICLES ─────────
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+let particles = [];
+const maxParticles = 220;
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight;}
+window.addEventListener("resize",resize);
+resize();
+function createParticle(){return{x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-0.5)*0.8,vy:(Math.random()-0.5)*0.8,size:Math.random()*6+4,alpha:0,fadeInRate:0.005+Math.random()*0.003,fadeOutRate:0.002+Math.random()*0.003,angle:Math.random()*Math.PI*2,angularVelocity:(Math.random()-0.5)*0.02};}
+function draw(){ctx.clearRect(0,0,canvas.width,canvas.height);if(particles.length<maxParticles)particles.push(createParticle());particles.forEach((p,i)=>{if(p.alpha<1)p.alpha+=p.fadeInRate;else p.alpha-=p.fadeOutRate;if(p.alpha<=0){particles.splice(i,1);return;}ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.angle);ctx.globalAlpha=p.alpha;ctx.fillStyle="#800080";ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size);ctx.restore();p.x+=p.vx;p.y+=p.vy;p.angle+=p.angularVelocity;if(p.x<0||p.x>canvas.width)p.vx*=-1;if(p.y<0||p.y>canvas.height)p.vy*=-1});requestAnimationFrame(draw);}
+draw();
+</script>
+
+</body>
+</html>
